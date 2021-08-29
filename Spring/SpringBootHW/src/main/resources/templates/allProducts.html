@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All products</title>
+</head>
+<body>
+<h4>Products</h4>
+
+<!-- Search by id form-->
+<br>
+<form action="findId" method="get">
+    Find by id <input name="id" type="number" value="0"/>
+    <input type="submit" value="Find" />
+</form>
+<br>
+
+<!-- Link to the new product form -->
+<a href = "newProduct">Add new product</a>
+
+<!-- Current products list -->
+<ul th:each="product : ${products}">
+    <li>
+        <p>ID# [[${product.id}]]</p>
+        <p>Title [[${product.title}]]</p>
+        <p>Cost [[${product.cost}]]</p>
+    </li>
+</ul>
+
+</body>
+</html>
