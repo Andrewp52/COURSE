@@ -1,18 +1,24 @@
 package com.pashenko.SpringMVC.entity;
 
-import java.math.BigDecimal;
+import javax.persistence.*;
 
-
+@Entity (name = "products")
 public class Product {
-    private int id;
-    private String title;
-    private BigDecimal cost;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    public int getId() {
+    @Column
+    private String title;
+
+    @Column
+    private int price;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -24,11 +30,11 @@ public class Product {
         this.title = title;
     }
 
-    public BigDecimal getCost() {
-        return cost;
+    public int getPrice() {
+        return price;
     }
 
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
