@@ -2,6 +2,7 @@ package com.pashenko.SpringMVC.controller;
 
 import com.pashenko.SpringMVC.entity.Product;
 import com.pashenko.SpringMVC.DAO.ProductDAO;
+import com.pashenko.SpringMVC.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 public class ProductController {
     @Autowired
-    private ProductDAO service;
+    private ProductService service;
 
     // Shows all products
     @RequestMapping("/")
