@@ -3,7 +3,7 @@ package com.pashenko.SpringMVC.DAO;
 import com.pashenko.SpringMVC.entity.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,7 +11,15 @@ import java.util.List;
 @Component
 public class ProductDAO {
 
-    private static final SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+    private DAOGeneral general;
+    private SessionFactory factory;
+
+    // Ony this option works
+    @Autowired
+    public void setGeneral(DAOGeneral general) {
+        this.general = general;
+        factory = general.getSessionFactory();
+    }
 
     public void saveOrUpdate(Product product){
         Session s = factory.getCurrentSession();
