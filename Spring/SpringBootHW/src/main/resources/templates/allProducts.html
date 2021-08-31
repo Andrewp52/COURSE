@@ -22,7 +22,8 @@
     <li>
         <p>ID# [[${product.id}]]</p>
         <p>Title [[${product.title}]]</p>
-        <p>Cost [[${product.cost}]]</p>
+        <p>Cost [[${product.price}]]</p>
+        <a th:href="@{editProduct(id = ${product.id})}">Edit</a> <a th:href="@{deleteProduct(id = ${product.id})}">Delete</a>
     </li>
 </ul>
 
