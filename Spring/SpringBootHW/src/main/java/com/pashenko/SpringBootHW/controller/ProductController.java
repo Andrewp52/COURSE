@@ -2,8 +2,8 @@ package com.pashenko.SpringBootHW.controller;
 
 import com.pashenko.SpringBootHW.Service.ProductService;
 import com.pashenko.SpringBootHW.entity.Product;
-import com.pashenko.SpringBootHW.DAO.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +17,22 @@ public class ProductController {
     private ProductService service;
 
     // Shows all products
-    @RequestMapping("/")
-    public String showAll(Model model){
-        model.addAttribute("products", service.findAll());
+    @RequestMapping(value = "/", method = GET)
+    public String showAll(
+            Model model,
+            @RequestParam(name = "size", defaultValue = "5") int size,
+            @RequestParam(name = "page", defaultValue = "0") int num,
+            @RequestParam(name = "filter", required = false) String filter
+    ){
+        Page<Product> page;
+        if(filter != null){
+            page = service.getFiltered(filter, size, num);
+        } else {
+            page = service.findAll(size, num);
+        }
+        model.addAttribute("filter", filter);
+        model.addAttribute("page", page);
+        model.addAttribute("products", page.getContent());
         return "allProducts";
     }
 
