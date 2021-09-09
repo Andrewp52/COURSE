@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>All products</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
 <h4>Products</h4>
@@ -25,38 +26,20 @@
         <th>Id</th>
         <th>Title</th>
         <th>Price</th>
+        <th></th>
     </tr>
     <tr th:each="product : ${products}" align="center">
-        <td>[[${product.id}]]</td>
-        <td>[[${product.title}]]</td>
-        <td>[[${product.price}]]</td>
+        <td th:text="${product.id}"/>
+        <td th:text="${product.title}"/>
+        <td th:text="${product.price}"/>
+        <td><a class="ui-button" th:href="@{/deleteProduct(id = ${product.getId()})}">Remove</a></td>
     </tr>
 </table>
 
-<!-- Page selection and size setting-->
-<span th:if="${page.getPageable().isPaged()}">
-<form th:action="@{/}" th:method="get">
-    <label>Items per page</label>
-    <input type="hidden" name="page" th:value="0" />
-    <select th:name="size" onchange="this.form.submit()">
-        <option th:each="i: ${#numbers.sequence(1, 5)}"
-                th:text = "${i} * 5" th:value="${i} * 5"
-                th:selected="${i} * 5 == ${page.getSize()}"
-        ></option>
-    </select>
+<div th:if="${page.getPageable().isPaged()}">
+    <div th:replace="~{pageSelection :: pageSel(${page.getSize()}, ${page.getNumber()}, ${page.getTotalPages()})}">
+    </div>
+</div>
 
-    <label>Page number</label>
-<th:block th:each="i: ${#numbers.sequence(0, page.getTotalPages() - 1)}">
-    <span th:if="${i} == ${page.getNumber()}">
-        <b>[[${page.getNumber()} + 1]]</b>
-    </span>
-    <span th:unless="${i} == ${page.getNumber()}">
-        <a th:href="@{/(size = ${page.getSize()}, page = ${i})}" th:text="${i} + 1"></a>
-    </span>
-</th:block>
-</form>
-
-
-</span>
 </body>
 </html>

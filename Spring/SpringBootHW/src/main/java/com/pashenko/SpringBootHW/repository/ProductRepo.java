@@ -17,17 +17,12 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long> {
 
     void deleteById(Long aLong);
 
-    // Option 1
     @Query(value = "select min(price) from #{#entityName}", nativeQuery = true)
     int findMinPrice();
 
     @Query(value = "select max(price) from #{#entityName}", nativeQuery = true)
     int findMaxPrice();
 
-    Page<Product> getTopByPrice(int price, Pageable pageable);
-
-
-    // Option 2
     @Query(value = "select * from #{#entityName} where price = (select min(price) from #{#entityName}) limit 1", nativeQuery = true)
     Page<Product> getWithMinPrice(Pageable pageable);
 

@@ -32,18 +32,14 @@ public class ProductDAO {
     }
 
     public Page<Product> findMostCheap(){
-//        return repo.getTopByPrice(repo.findMinPrice(), Pageable.unpaged()); // Option 1
         return repo.getWithMinPrice(Pageable.unpaged());
     }
 
     public Page<Product> findMostExpensive(){
-//        return repo.getTopByPrice(repo.findMaxPrice(), Pageable.unpaged()); // Option 1
         return repo.getWithMaxPrice(Pageable.unpaged());
     }
 
     public Page<Product> findMostCheapAndExpensive(){
-
-//        List<Product> res = this.findMostCheap().and(this.findMostExpensive()).toList();  // Opt 1
         List<Product> res = repo.getWithMinPrice(Pageable.unpaged()).and(repo.getWithMaxPrice(Pageable.unpaged())).toList();
         return new PageImpl<>(res);
     }
