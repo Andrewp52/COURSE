@@ -26,7 +26,7 @@ public class ProductService {
     }
 
     public Product findById(long id){
-        return repo.findById(id).orElseGet(null);
+        return repo.findById(id).orElseGet(() -> {return null;});
     }
 
     public List<Product> findFilteredByPrice(String filter){
