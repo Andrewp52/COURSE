@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<div th:fragment="navBar()">
+    <link rel="stylesheet" href="../static/css/topNavi.css" th:href="@{/css/topNavi.css}"/>
+    <div class="topnav">
+        <nav>
+            <span sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Admin panel</a></span>
+            <span><a th:href= "@{/}">Products</a></span>
+            <span sec:authorize="!isAuthenticated()" style="float:right"><a th:href="@{/login}">Log in</a> </span>
+            <span sec:authorize="isAuthenticated()" style="float:right">
+                <form th:action="@{/logout}" method="POST">
+                    <input type="submit" id="submit" value="Logout"/>
+                </form>
+            </span>
+
+            </ul>
+        </nav>
+    </div>
+</div>
+</html>
