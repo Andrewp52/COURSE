@@ -4,6 +4,7 @@ import com.pashenko.SpringBootHW.Service.ProductService;
 import com.pashenko.SpringBootHW.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ProductController {
     @RequestMapping(value = "/", method = GET)
     public String showAll(
             Model model,
-            @RequestParam(name = "size", defaultValue = "5") int size,
+            @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "page", defaultValue = "0") int num,
             @RequestParam(name = "filter", required = false) String filter
     ){
@@ -37,6 +38,7 @@ public class ProductController {
     }
 
     // Shows form for a new product addition
+    @Secured({"ROLE_ADMIN"})
     @RequestMapping("/newProduct")
     public String newProduct(Model model){
         model.addAttribute("product", new Product());
@@ -45,6 +47,7 @@ public class ProductController {
 
     // Adds a new product using object from form
     // Also it works for update
+    @Secured({"ROLE_ADMIN"})
     @RequestMapping(path = "/addProduct", method = POST)
     public String addProduct(@ModelAttribute Product product){
         service.saveOrUpdate(product);
@@ -52,6 +55,7 @@ public class ProductController {
     }
 
     // Shows edit form for product with given id
+    @Secured({"ROLE_ADMIN"})
     @RequestMapping(path = "/editProduct", method = GET)
     public String editProduct(Model model, @RequestParam("id") long id){
         Product p = service.findById(id);
@@ -60,6 +64,7 @@ public class ProductController {
     }
 
     // Deletes product with given id
+    @Secured({"ROLE_ADMIN"})
     @RequestMapping(path = "/deleteProduct", method = GET)
     public String deleteProduct(Model model, @RequestParam("id") long id){
         service.deleteById(id);
@@ -67,6 +72,7 @@ public class ProductController {
     }
 
     // Finds product with given id (as url part) and return "result" or "not found" view
+    @Secured({"ROLE_USER"})
     @RequestMapping(path = "/product/{id}", method = GET)
     public String showProductByUrlId(Model model, @PathVariable(value = "id") long id){
         return findProduct(model, id);
@@ -74,6 +80,7 @@ public class ProductController {
 
     // Finds product with given id (as get parameter) and return "result" or "not found" view
     // Calling by form
+    @Secured({"ROLE_USER"})
     @RequestMapping(path = "/findId", method = GET)
     public String showProductByFormId(Model model, @RequestParam long id){
         return findProduct(model, id);

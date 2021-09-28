@@ -38,4 +38,14 @@ public class Product {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj || this.id == ((Product) obj).getId();
+    }
 }
