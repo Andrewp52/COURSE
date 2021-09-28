@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+>
+<div th:fragment="pagination(page, total, title)">
+    <nav>
+        <ul class="pagination justify-content-center">
+            <div th:if="${page} == 0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+            </div>
+            <div th:unless="${page} == 0">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{''(p = ${page} - 1, title = ${title})}" tabindex="-1">Previous</a>
+                </li>
+            </div>
+
+            <div th:each="i: ${#numbers.sequence(0, total - 1)}">
+                <li th:class="${page == i}? 'page-item active' : 'page-item'">
+                    <div th:if="${title} == null">
+                        <a class="page-link" th:href="@{''(p = ${i})}" th:text="${i} + 1"></a>
+                    </div>
+                    <div th:unless="${title} == null">
+                        <a class="page-link" th:href="@{''(p = ${i}, title = ${title})}" th:text="${i} + 1"></a>
+                    </div>
+
+                </li>
+            </div>
+
+            <div th:if="${page} + 1 == ${total}">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </div>
+            <div th:unless="${page} + 1 == ${total}">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{''(p = ${page} + 1, title = ${title})}">Next</a>
+                </li>
+            </div>
+
+        </ul>
+    </nav>
+</div>
+</html>

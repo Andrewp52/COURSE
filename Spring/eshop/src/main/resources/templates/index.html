@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <title>E-Shop</title>
+</head>
+
+<body>
+<div class="container-xxl">
+    <div th:replace="~{/parts/header :: header('home')}"></div>
+    Index body
+
+
+    <div th:replace="~{/parts/footer :: footer()}"></div>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

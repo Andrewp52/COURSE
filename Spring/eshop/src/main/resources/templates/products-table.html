@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <title>Products catalog</title>
+</head>
+
+<body>
+<div class="container-xxl">
+<div th:replace="~{/parts/header :: header('product')}"></div>
+    <div class="row">
+        <div class="col-12 text-md-start text-center">
+            <h3>Catalog</h3>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col"></th>
+        </thead>
+        <tbody>
+        <tr th:each="prod : ${products}">
+            <th scope="row" th:text="${prod.getId()}"></th>
+            <td th:text="${prod.getTitle()}"></td>
+            <td th:text="${prod.getShortDescription()}"></td>
+            <td th:text="${prod.getPrice()}"></td>
+            <td>
+                <a th:href="@{/cart/add(id = ${prod.getId()})}" onclick="this.parentNode.submit()">
+                    <i class="bi bi-cart-plus"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:replace="~{/parts/pagination :: pagination(${products.getNumber()}, ${products.getTotalPages()}, ${title})}"></div>
+    <div th:replace="~{/parts/footer :: footer()}"></div>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+>
+
+<div th:fragment="navigation (active)">
+    <nav class="navbar  navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+            <a class="navbar-brand" th:href="@{/}">E-Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+                <div sec:authorize="hasRole('ADMIN')">
+                    <li>
+                        <a th:class="${active} == 'admin'? 'nav-link active' : 'nav-link'" th:href="@{/admin}">Admin panel</a>
+                    </li>
+                </div>
+
+                <li class="nav-item">
+                    <a th:class="${active} == 'product'? 'nav-link active' : 'nav-link'" th:href="@{/products}">Products catalog</a>
+                </li>
+
+                <li class="nav-item">
+                    <form class="d-flex" th:action="@{/products/search}" method="get">
+                        <input class="form-control form-control-sm me-2" type="text" placeholder="Search" aria-label="Search" name="title">
+                        <button class="btn btn-sm btn-outline-primary mb-0" type="submit">Search</button>
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item">
+                    <a th:class="${active} == 'cart'? 'nav-link active' : 'nav-link'" th:href="@{/cart}">
+                        <i class="bi bi-basket2-fill"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <div sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/login}">Log in</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <form class="d-flex" th:action="@{/logout}" method="post">
+                            <a href="#" class="nav-link" onclick="this.parentNode.submit()">Log out</a>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</html>
