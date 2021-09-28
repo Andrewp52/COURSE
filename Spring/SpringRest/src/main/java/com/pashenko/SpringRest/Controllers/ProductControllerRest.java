@@ -4,6 +4,8 @@ import com.pashenko.SpringRest.Entities.Product;
 import com.pashenko.SpringRest.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +30,20 @@ public class ProductControllerRest {
         return service.findById(id);
     }
 
-    @GetMapping("app/products/delete/{id}")
-    public String deleteById(@PathVariable(name = "id") Long id){
-        try{
-            service.deleteById(id);
-            return String.format("Product with id: %d deleted", id);
-        } catch (EmptyResultDataAccessException e) {
-            return String.format("Product with id: %d not found", id);
-        }
-
+    @PutMapping("app/products")
+    public Product putProduct(@RequestBody Product product){
+        return service.saveOrUpdate(product);
     }
 
+    @DeleteMapping("app/products/{id}")
+    public int deleteProduct(@PathVariable(name = "id") Long id){
+        service.deleteById(id);
+        return HttpStatus.OK.value();
+    }
 
+    // Simple handler for EmptyResultDataAccessException
+    @ExceptionHandler
+    public ResponseEntity<String> handleEmptyResult(EmptyResultDataAccessException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
