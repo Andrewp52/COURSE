@@ -4,6 +4,7 @@
 <head>
     <title>All products</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../static/css/tables.css" th:href="@{/css/tables.css}"/>
 
 </head>
 <body>
@@ -13,43 +14,63 @@
 <br>
 <!-- Link to the new product form -->
 <div sec:authorize="hasAnyRole('USER')">
-    <form th:action="@{/}" th:method="get">
-        <label>Filter by price </label><select th:name="filter" onchange="this.form.submit()">
-        <option>All</option>
-        <option value="cheap" th:selected="'cheap' == ${filter}">Cheap</option>
-        <option value="expensive" th:selected="'expensive' == ${filter}">Expensive</option>
-        <option value="both" th:selected="'both' == ${filter}">Most cheap and expensive</option>
-    </select>
-    </form>
+    <div align="center">
+        <form th:action="@{/}" th:method="get">
+            <label>Filter by price </label><select th:name="filter" onchange="this.form.submit()">
+            <option>All</option>
+            <option value="cheap" th:selected="'cheap' == ${filter}">Cheap</option>
+            <option value="expensive" th:selected="'expensive' == ${filter}">Expensive</option>
+            <option value="both" th:selected="'both' == ${filter}">Most cheap and expensive</option>
+        </select>
+        </form>
+    </div>
 </div>
 
-<table th:width="800">
+<table id="simpleTable" align="center" width="70%">
     <tr>
-        <th>Id</th>
+        <div sec:authorize="hasRole('ADMIN')">
+            <th colspan="5">Products</th>
+        </div>
+        <div sec:authorize="!hasRole('ADMIN')">
+            <th colspan="4">Products</th>
+        </div>
+    </tr>
+    <tr>
+        <th width="1%">Id</th>
         <th>Title</th>
-        <th>Price</th>
-        <th>
-            <div sec:authorize="hasRole('ADMIN')">
-                <a href = "newProduct">Add new product</a>
-            </div>
-        </th>
+        <th width="1%">Price</th>
+        <th width="1%"></th>
+        <div sec:authorize="hasRole('ADMIN')">
+            <th width="1%">
+                <a style="color: #dddddd" href = "newProduct">Add new product</a>
+            </th>
+        </div>
     </tr>
     <tr th:each="product : ${products}" align="center">
         <td th:text="${product.id}"/>
         <td th:text="${product.title}"/>
         <td th:text="${product.price}"/>
         <td>
-            <div sec:authorize="hasRole('ADMIN')">
-                <a class="ui-button" th:href="@{/deleteProduct(id = ${product.getId()})}">Remove</a>
-            </div>
+            <form th:action="@{/cart/add}" th:method="post">
+                <input type="hidden" th:name="id" th:value="${product.id}"/>
+                <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Add to cart." onclick="this.form.submit()">
+                    <span class="ui-icon ui-icon-cart"></span> Add to cart.
+                </button>
+            </form>
         </td>
+        <div sec:authorize="hasRole('ADMIN')">
+            <td>
+                <a class="ui-button" th:href="@{/deleteProduct(id = ${product.getId()})}">Remove</a>
+            </td>
+        </div>
     </tr>
 </table>
-
-<div th:if="${page.getPageable().isPaged()}">
+<br>
+<div align="center" th:if="${page.getPageable().isPaged()}">
     <div th:replace="~{pageSelection :: pageSel(${page.getSize()}, ${page.getNumber()}, ${page.getTotalPages()})}">
     </div>
 </div>
+
 
 </body>
 </html>

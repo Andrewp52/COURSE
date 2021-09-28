@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link rel="stylesheet" href="../static/css/tables.css" th:href="@{/css/tables.css}"/>
+</head>
+<body>
+<div th:replace="~{navigation::navBar()}"></div>
+<br>
+<TABLE id="simpleTable" align="center">
+    <tr><th colspan="4">Cart</th></tr>
+    <tr>
+        <th>Title</th>
+        <th width="1%">Price per item</th>
+        <th width="160">Quantity</th>
+        <th width="1%">Price</th>
+    </tr>
+    <tr th:each="key : ${cart.keySet()}">
+        <td th:text="${key.title}"></td>
+        <td th:text="${key.price}"></td>
+        <td>
+            <label style ='float: left; padding: 5px;' th:text="${cart.get(key)}"></label>
+            <form style ='float: right; padding: 5px;' th:object="${product}" th:action="@{/cart/remQuant}" th:method="post">
+                <input type="hidden" th:value="${key.id}" th:name="id" th:id="id">
+                <input type="submit" value="-">
+            </form>
+            <form style ='float: right; padding: 5px;' th:object="${product}" th:action="@{/cart/addQuant}" th:method="post">
+                <input type="hidden" th:value="${key.id}" th:name="id" th:id="id">
+                <input type="submit" value="+">
+            </form>
+        </td>
+        <td th:text="${key.price} * ${cart.get(key)}"></td>
+    </tr>
+    <tr>
+        <td colspan="3" th:text="Total"></td>
+        <td th:text="${total}"></td></tr>
+</TABLE>
+</body>
+</html>
