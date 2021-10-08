@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en"
+>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
+    <title>E-Shop</title>
 </head>
-<body>
 
+<body>
+<div class="container-xxl">
+    <div th:replace="~{/parts/header :: header('profile')}"></div>
+    <h3>User profile</h3>
+    <div class="row">
+        <div class="col-sm-6 col-12">
+            <h4>Your personal data</h4>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th scope="row">Login</th>
+                    <td th:text="${user.getLogin()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">First name</th>
+                    <td th:text="${user.getFirstName()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Last name</th>
+                    <td th:text="${user.getLastName()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">E-mail</th>
+                    <td th:text="${user.getEmail()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone</th>
+                    <td th:text="${user.getPhone()}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Address</th>
+                    <td th:text="${user.getAddress()}"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{/parts/footer :: footer()}"></div>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
