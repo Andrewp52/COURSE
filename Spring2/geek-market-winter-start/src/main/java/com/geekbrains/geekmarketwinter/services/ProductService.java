@@ -1,24 +1,29 @@
 package com.geekbrains.geekmarketwinter.services;
 
 import com.geekbrains.geekmarketwinter.entites.Product;
+import com.geekbrains.geekmarketwinter.entites.ProductDTO;
 import com.geekbrains.geekmarketwinter.repositories.ProductRepository;
-import com.geekbrains.geekmarketwinter.repositories.specifications.ProductSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductService {
     private ProductRepository productRepository;
+    private CategoryService categoryService;
 
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     public List<Product> getAllProducts() {
@@ -48,4 +53,20 @@ public class ProductService {
     public void saveProduct(Product product) {
         productRepository.save(product);
     }
+
+    public Product addNewProduct(ProductDTO productDTO) {
+        Product p = productRepository.findOneByTitle(productDTO.getTitle());
+        if(p != null){
+            return null;
+        }
+        p = new Product();
+        p.setCategory(categoryService.getCategoryById(productDTO.getCategoryId()));
+        p.setVendorCode(productDTO.getVendorCode());
+        p.setTitle(productDTO.getTitle());
+        p.setShortDescription(productDTO.getShortDescription());
+        p.setFullDescription(productDTO.getFullDescription());
+        p.setPrice(productDTO.getPrice());
+        return productRepository.save(p);
+    }
+
 }
