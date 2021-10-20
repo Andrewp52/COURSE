@@ -6,6 +6,7 @@ import gpn.exception.ApplicationException;
 import gpn.exception.UserNotFoundException;
 import gpn.interfaces.service.IAuthenticationService;
 import gpn.interfaces.service.IClaimsService;
+import gpn.util.JwtRequest;
 import gpn.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchResult;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,6 +80,24 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         return jwtTokenUtil.generateToken(userDetails, sUser);
     }
+
+    @Override
+    public String getAuthToken(JwtRequest request) throws UserNotFoundException, NamingException, ApplicationException {
+        SystemUser sUser = new SystemUser();
+        sUser.setId(1L);
+        sUser.setUserName(request.getUsername());
+        sUser.setDomainName("-");
+        sUser.setDisplayName("-");
+        sUser.setEmail("-");
+        sUser.setGuid("-");
+        List<Claim> claimList = new ArrayList<>();
+        claimList.add(new Claim("lastName", request.getLastName()));
+        claimList.add(new Claim("phone", request.getPhone()));
+        sUser.setClaims(claimList);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        return jwtTokenUtil.generateToken(userDetails, sUser);
+    }
+
 
     /**
      * запонение контракта из ldap

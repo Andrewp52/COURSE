@@ -35,7 +35,7 @@ public class JwtAuthenticationController {
         }
 
         try {
-            String token = authenticationService.getAuthToken(userName);
+            String token = authenticationService.getAuthToken(authenticationRequest);
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (UserNotFoundException e) {
             //log.info(String.format("User %s not found", userName));
