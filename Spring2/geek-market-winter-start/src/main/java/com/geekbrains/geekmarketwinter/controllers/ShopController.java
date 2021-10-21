@@ -98,17 +98,17 @@ public class ShopController {
         shoppingCartService.addToCart(httpServletRequest.getSession(), id);
         String referrer = httpServletRequest.getHeader("referer");
 
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        try (Connection connection = factory.newConnection();
-             Channel channel = connection.createChannel()){
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String msg = "Hello World!";
-            channel.basicPublish("", QUEUE_NAME, null, msg.getBytes());
-            System.out.println("sent " + msg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        ConnectionFactory factory = new ConnectionFactory();
+//        factory.setHost("localhost");
+//        try (Connection connection = factory.newConnection();
+//             Channel channel = connection.createChannel()){
+//            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+//            String msg = "Hello World!";
+//            channel.basicPublish("", QUEUE_NAME, null, msg.getBytes());
+//            System.out.println("sent " + msg);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return "redirect:" + referrer;
     }
