@@ -1,12 +1,8 @@
 package com.geekbrains.geekmarketwinter.controllers;
 
 import com.geekbrains.geekmarketwinter.entites.Product;
-import com.geekbrains.geekmarketwinter.entites.User;
 import com.geekbrains.geekmarketwinter.repositories.specifications.ProductSpecs;
 import com.geekbrains.geekmarketwinter.services.*;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -98,18 +92,25 @@ public class ShopController {
         shoppingCartService.addToCart(httpServletRequest.getSession(), id);
         String referrer = httpServletRequest.getHeader("referer");
 
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
-        try (Connection connection = factory.newConnection();
-             Channel channel = connection.createChannel()){
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String msg = "Hello World!";
-            channel.basicPublish("", QUEUE_NAME, null, msg.getBytes());
-            System.out.println("sent " + msg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        ConnectionFactory factory = new ConnectionFactory();
+//        factory.setHost("localhost");
+//        try (Connection connection = factory.newConnection();
+//             Channel channel = connection.createChannel()){
+//            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+//            String msg = "Hello World!";
+//            channel.basicPublish("", QUEUE_NAME, null, msg.getBytes());
+//            System.out.println("sent " + msg);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return "redirect:" + referrer;
+    }
+
+    @GetMapping("/order/fill")
+    @ResponseBody
+    public String fillNewOrder(){
+        rabbitTemplate.convertAndSend("Shop-queue", "Order filling requested");
+        return "Success";
     }
 }
