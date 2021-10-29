@@ -2,7 +2,7 @@ package com.pashenko.wintermarket.controllers;
 
 import com.pashenko.contract.Product;
 import com.pashenko.contract.specifications.ProductSpecs;
-import com.pashenko.wintermarket.services.ProductService;
+import com.pashenko.wintermarket.services.IProductsService;
 import com.pashenko.wintermarket.services.ShoppingCartService;
 import com.pashenko.wintermarket.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,15 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/shop")
-public class ShopController {
+public class ShopController{
     private static final int INITIAL_PAGE = 0;
     private static final int PAGE_SIZE = 5;
 
     private UserService userService;
-    private ProductService productService;
     private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    private IProductsService productsService;
 
     @Autowired
     public void setShoppingCartService(ShoppingCartService shoppingCartService) {
@@ -33,11 +35,6 @@ public class ShopController {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
     }
 
     @GetMapping
@@ -64,7 +61,7 @@ public class ShopController {
             filters.append("&max=" + max);
         }
 
-        Page<Product> products = productService.getProductsWithPagingAndFiltering(currentPage, PAGE_SIZE, spec);
+        Page<Product> products = productsService.getProducts(currentPage, PAGE_SIZE, word, min, max);
 
         model.addAttribute("products", products.getContent());
         model.addAttribute("page", currentPage);

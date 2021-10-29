@@ -3,7 +3,7 @@ package com.pashenko.wintermarket.controllers;
 import com.pashenko.contract.Product;
 import com.pashenko.contract.ProductDTO;
 import com.pashenko.wintermarket.services.CategoryService;
-import com.pashenko.wintermarket.services.ProductService;
+import com.pashenko.wintermarket.services.ProductServiceOld;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-    private ProductService productService;
+    private ProductServiceOld productServiceOld;
     private CategoryService categoryService;
 
     @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setProductService(ProductServiceOld productServiceOld) {
+        this.productServiceOld = productServiceOld;
     }
 
     @Autowired
@@ -38,7 +38,7 @@ public class ProductController {
     // Adds a new product and redirects with product flashAttribute if success
     @PostMapping("/add")
     public String addNewProduct(Model model, @ModelAttribute ProductDTO productDTO, HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Product p = productService.addNewProduct(productDTO);
+        Product p = productServiceOld.addNewProduct(productDTO);
         if(p != null){
             redirectAttributes.addFlashAttribute("recent", p);
         }
