@@ -1,4 +1,4 @@
-package com.pashenko.wintermarket.repositories.specifications;
+package com.pashenko.contract.specifications;
 
 import com.pashenko.contract.Product;
 import org.springframework.data.jpa.domain.Specification;

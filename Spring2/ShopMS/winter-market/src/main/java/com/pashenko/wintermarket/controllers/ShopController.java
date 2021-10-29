@@ -1,7 +1,7 @@
 package com.pashenko.wintermarket.controllers;
 
 import com.pashenko.contract.Product;
-import com.pashenko.wintermarket.repositories.specifications.ProductSpecs;
+import com.pashenko.contract.specifications.ProductSpecs;
 import com.pashenko.wintermarket.services.ProductService;
 import com.pashenko.wintermarket.services.ShoppingCartService;
 import com.pashenko.wintermarket.services.UserService;
