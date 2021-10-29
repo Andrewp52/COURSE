@@ -14,4 +14,7 @@ public interface IProductsService {
             @RequestParam(value = "word", required = false) String word,
             @RequestParam(value = "min", required = false) Double min,
             @RequestParam(value = "max", required = false) Double max);
+
+    @GetMapping("product")
+    Product getProductById(@RequestParam(name = "id") Long id);
 }

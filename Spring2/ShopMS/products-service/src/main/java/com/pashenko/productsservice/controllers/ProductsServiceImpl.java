@@ -7,7 +7,6 @@ import com.pashenko.productsservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -18,11 +17,7 @@ public class ProductsServiceImpl implements IProductsService {
     private ProductService productService;
 
     @Override
-    public RestPageImpl getProducts(@RequestParam(value = "page") int page,
-                                                  @RequestParam(value = "pageSize") int pageSize,
-                                                  @RequestParam(value = "word", required = false) String word,
-                                                  @RequestParam(value = "min", required = false) Double min,
-                                                  @RequestParam(value = "max", required = false) Double max) {
+    public RestPageImpl getProducts(int page, int pageSize, String word, Double min, Double max) {
         Specification<Product> spec = Specification.where(null);
         if (word != null) {
             spec = spec.and(ProductSpecs.titleContains(word));
@@ -37,4 +32,8 @@ public class ProductsServiceImpl implements IProductsService {
         return new RestPageImpl(products.toList(), products.getNumber(), pageSize, products.getTotalElements());
     }
 
+    @Override
+    public Product getProductById(Long id) {
+        return productService.getProductById(id);
+    }
 }

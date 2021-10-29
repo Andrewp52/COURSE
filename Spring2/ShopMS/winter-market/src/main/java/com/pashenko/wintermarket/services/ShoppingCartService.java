@@ -9,12 +9,8 @@ import javax.servlet.http.HttpSession;
 
 @Service
 public class ShoppingCartService {
-    private ProductServiceOld productServiceOld;
-
     @Autowired
-    public void setProductService(ProductServiceOld productServiceOld) {
-        this.productServiceOld = productServiceOld;
-    }
+    IProductsService productsService;
 
     public ShoppingCart getCurrentCart(HttpSession session) {
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
@@ -30,7 +26,7 @@ public class ShoppingCartService {
     }
 
     public void addToCart(HttpSession session, Long productId) {
-        Product product = productServiceOld.getProductById(productId);
+        Product product = productsService.getProductById(productId);
         addToCart(session, product);
     }
 
@@ -40,7 +36,7 @@ public class ShoppingCartService {
     }
 
     public void removeFromCart(HttpSession session, Long productId) {
-        Product product = productServiceOld.getProductById(productId);
+        Product product = productsService.getProductById(productId);
         removeFromCart(session, product);
     }
 
@@ -51,7 +47,7 @@ public class ShoppingCartService {
 
     public void setProductCount(HttpSession session, Long productId, Long quantity) {
         ShoppingCart cart = getCurrentCart(session);
-        Product product = productServiceOld.getProductById(productId);
+        Product product = productsService.getProductById(productId);
         cart.setQuantity(product, quantity);
     }
 
