@@ -1,5 +1,6 @@
 package com.pashenko.contract;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -31,6 +32,7 @@ public class Product implements Serializable {
     @Size(min = 8, max = 8, message = "требуется 8 числовых символов")
     private String vendorCode;
 
+    @JsonManagedReference                                           // JSON INFINITY LOOP PREVENTION
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "product")
     private List<ProductImage> images;
 
