@@ -2,8 +2,8 @@ package com.pashenko.wintermarket.controllers;
 
 import com.pashenko.contract.Product;
 import com.pashenko.contract.ProductDTO;
-import com.pashenko.wintermarket.services.CategoryService;
-import com.pashenko.wintermarket.services.ProductServiceOld;
+import com.pashenko.wintermarket.services.ICategoriesService;
+import com.pashenko.wintermarket.services.IProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,22 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-    private ProductServiceOld productServiceOld;
-    private CategoryService categoryService;
-
     @Autowired
-    public void setProductService(ProductServiceOld productServiceOld) {
-        this.productServiceOld = productServiceOld;
-    }
-
+    private IProductsService productsService;
     @Autowired
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private ICategoriesService categoriesService;
 
     @GetMapping("/add")
     public String showNewProductForm(Model model){
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoriesService.getAllCategories());
         model.addAttribute("productDTO", new ProductDTO());
         return "new-product-form";
     }
@@ -38,7 +30,7 @@ public class ProductController {
     // Adds a new product and redirects with product flashAttribute if success
     @PostMapping("/add")
     public String addNewProduct(Model model, @ModelAttribute ProductDTO productDTO, HttpServletRequest request, RedirectAttributes redirectAttributes){
-        Product p = productServiceOld.addNewProduct(productDTO);
+        Product p = productsService.addNewProduct(productDTO);
         if(p != null){
             redirectAttributes.addFlashAttribute("recent", p);
         }
