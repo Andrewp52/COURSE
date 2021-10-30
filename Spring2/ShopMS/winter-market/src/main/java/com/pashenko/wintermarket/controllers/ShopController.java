@@ -1,13 +1,11 @@
 package com.pashenko.wintermarket.controllers;
 
 import com.pashenko.contract.Product;
-import com.pashenko.contract.specifications.ProductSpecs;
 import com.pashenko.wintermarket.services.IProductsService;
 import com.pashenko.wintermarket.services.ShoppingCartService;
 import com.pashenko.wintermarket.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,18 +44,14 @@ public class ShopController{
     ) {
         final int currentPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
 
-        Specification<Product> spec = Specification.where(null);
         StringBuilder filters = new StringBuilder();
         if (word != null) {
-            spec = spec.and(ProductSpecs.titleContains(word));
             filters.append("&word=" + word);
         }
         if (min != null) {
-            spec = spec.and(ProductSpecs.priceGreaterThanOrEq(min));
             filters.append("&min=" + min);
         }
         if (max != null) {
-            spec = spec.and(ProductSpecs.priceLesserThanOrEq(max));
             filters.append("&max=" + max);
         }
 
