@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface IFileMetaProvider {
     String checkFileExists(UUID fileHash);
+    String checkFileExists(UUID fileHash, String fileName, int subType);
 
     void saveFileMeta(UUID Hash, String fileName, int subType);
 
