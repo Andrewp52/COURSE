@@ -27,12 +27,14 @@ public class FileStoreService implements IFileStoreService {
     public String storeFile(byte[] content, String fileName, int subFileType) throws IOException, NoSuchAlgorithmException {
         final UUID md5 = HashHelper.getMd5Hash(content);
 
-        String filename = fileMetaProvider.checkFileExists(md5);
+        String filename = fileMetaProvider.checkFileExists(md5, fileName, subFileType);
         if (filename == null) {
             fileMetaProvider.saveFileMeta(md5, fileName, subFileType);
             filename = systemProvider.storeFile(content, md5, fileName);
+        } else if(!filename.equals(fileName)){
+            fileMetaProvider.saveFileMeta(md5, fileName, subFileType);
+            return fileName;
         }
-
         return filename;
     }
 
