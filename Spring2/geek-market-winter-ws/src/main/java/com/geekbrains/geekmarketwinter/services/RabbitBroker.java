@@ -2,6 +2,7 @@ package com.geekbrains.geekmarketwinter.services;
 
 import com.geekbrains.geekmarketwinter.contracts.GetProducts;
 import com.geekbrains.geekmarketwinter.contracts.ProductResult;
+import com.geekbrains.geekmarketwinter.entites.Category;
 import com.geekbrains.geekmarketwinter.entites.Product;
 import com.geekbrains.geekmarketwinter.utils.JsonConverter;
 import org.springframework.amqp.core.Queue;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 public class RabbitBroker {
@@ -23,6 +25,10 @@ public class RabbitBroker {
     @Qualifier(value = "prod-request")
     private Queue productsReqQueue;
 
+    @Autowired
+    @Qualifier(value = "cat-request")
+    private Queue categoriesReqQueue;
+
     JsonConverter converter = new JsonConverter();
 
     // Requests products page from service via RPC
@@ -31,6 +37,17 @@ public class RabbitBroker {
         String resp = (String) rabbitTemplate.convertSendAndReceive(productsReqQueue.getName(), json);
         ProductResult result = (ProductResult) converter.bytesToObject(resp.getBytes(StandardCharsets.UTF_8), ProductResult.class);
         return result.getProducts();
+    }
+
+    public List<Category> getAllCategories() {
+        List<Category> result = null;
+        try {
+            String resp = (String) rabbitTemplate.convertSendAndReceive(categoriesReqQueue.getName(), converter.objectToString("req"));
+            result = (List<Category>) converter.bytesToObject(resp.getBytes(StandardCharsets.UTF_8), List.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

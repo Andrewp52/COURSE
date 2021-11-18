@@ -24,4 +24,10 @@ public class RabbitConfig {
         return new Queue("products-req-queue");
     }
 
+    @Bean
+    @Qualifier("cat-request")
+    public Queue categoriesReqQueue() {
+        return new Queue("categories-req-queue");
+    }
+
 }
