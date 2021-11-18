@@ -10,17 +10,11 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-    private CategoryRepository categoryRepository;
+
     @Autowired
     private RabbitBroker rabbitBroker;
 
-    @Autowired
-    public void setCategoryRepository(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
     public List<Category> getAllCategories() {
-//        return (List<Category>)categoryRepository.findAll();
         return rabbitBroker.getAllCategories();
     }
 }

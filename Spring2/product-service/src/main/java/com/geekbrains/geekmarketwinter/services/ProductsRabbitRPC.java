@@ -1,7 +1,7 @@
 package com.geekbrains.geekmarketwinter.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.geekbrains.geekmarketwinter.JsonConverter;
 import com.geekbrains.geekmarketwinter.contract.GetProducts;
 import com.geekbrains.geekmarketwinter.contract.JSONPageImpl;
 import com.geekbrains.geekmarketwinter.contract.ProductResult;
@@ -19,12 +19,11 @@ public class ProductsRabbitRPC {
     @Autowired
     ProductService productService;
 
-    ObjectMapper mapper = new ObjectMapper();
+    JsonConverter converter = new JsonConverter();
 
     @RabbitListener(queues = "products-req-queue")
     public String acceptMessage(Message message) throws IOException {
-        String msg = new String(message.getBody(), "UTF-8");
-        GetProducts request = mapper.readValue(msg, GetProducts.class);
+        GetProducts request = (GetProducts) converter.bytesToObject(message.getBody(), GetProducts.class);
         return getJsonStringFromPage(getPage(request));
     }
 
@@ -39,6 +38,6 @@ public class ProductsRabbitRPC {
                 products.getSize(),
                 products.getTotalElements())
         );
-        return mapper.writer().writeValueAsString(result);
+        return converter.objectToString(result);
     }
 }
