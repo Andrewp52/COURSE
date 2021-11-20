@@ -5,18 +5,16 @@ import com.geekbrains.geekmarketwinter.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public class CategoryService {
-    private CategoryRepository categoryRepository;
 
     @Autowired
-    public void setCategoryRepository(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private RabbitBroker rabbitBroker;
 
     public List<Category> getAllCategories() {
-        return (List<Category>)categoryRepository.findAll();
+        return rabbitBroker.getAllCategories();
     }
 }
