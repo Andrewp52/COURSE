@@ -1,4 +1,4 @@
-package ru.geekbrain.headers;
+package ru.geekbrain.domain.headers;
 
 import java.util.StringJoiner;
 
