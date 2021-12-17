@@ -11,9 +11,11 @@ import java.util.Map;
 class SimpleParser implements Parser {
     @Override
     public Request parse(Deque<String> raw){
+        Request.Builder builder = Request.Builder.getBuilder();
         String[] firstLine = raw.pollFirst().split(" ");
-        HttpMethod method = HttpMethod.findByName(firstLine[0]);
-        String url = firstLine[1];
+
+        builder.withMethod(HttpMethod.findByName(firstLine[0]));
+        builder.withUrl(firstLine[1]);
 
         Map<HttpHeader, String> headers = new HashMap<>();
         while (!raw.isEmpty()) {
@@ -27,17 +29,13 @@ class SimpleParser implements Parser {
                 headers.put(header, rawHeader[1]);
             }
         }
+        builder.withHeaders(headers);
 
         StringBuilder body = new StringBuilder();
         while (!raw.isEmpty()) {
             body.append(raw.pollFirst());
         }
-
-        return Request.Builder.getBuilder()
-                .withMethod(method)
-                .withUrl(url)
-                .withHeaders(headers)
-                .withBody(body.toString())
-                .build();
+        builder.withBody(body.toString());
+        return builder.build();
     }
 }
