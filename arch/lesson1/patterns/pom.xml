@@ -5,17 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.geekbrain</groupId>
-    <artifactId>archproj</artifactId>
+    <artifactId>patterns</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>webserver</module>
-        <module>patterns</module>
-    </modules>
+
+    <parent>
+        <artifactId>archproj</artifactId>
+        <groupId>ru.geekbrain</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
     </properties>
-
+    
 </project>
