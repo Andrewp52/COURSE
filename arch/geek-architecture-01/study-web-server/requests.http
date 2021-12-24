@@ -1,0 +1,13 @@
+GET http://localhost:8080/index.html
+
+###
+
+POST http://localhost:8080/index.html
+
+###
+
+PUT http://localhost:8080/index.html
+
+###
+
+DELETE http://localhost:8080/index.html
