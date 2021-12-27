@@ -7,7 +7,7 @@ import ru.geekbrains.domain.ResponseCode;
 import ru.geekbrains.service.ResponseSerializer;
 import ru.geekbrains.service.SocketService;
 
-@Handler(order = 1)
+@Handler(order = 1, method = "POST")
 public class PostMethodHandler extends MethodHandler {
 
     public PostMethodHandler(String method, MethodHandler next, SocketService socketService, ResponseSerializer responseSerializer, Config config) {
