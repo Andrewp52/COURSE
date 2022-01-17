@@ -34,7 +34,7 @@ public class UserRepository {
     }
 
     public void delete(User user) {
-        unitOfWork.registerUpdate(user);
+        unitOfWork.registerDelete(user);
     }
 
     public void commitTransaction() {
