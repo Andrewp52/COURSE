@@ -1,5 +1,6 @@
 package ru.geekbrains.task2;
 
-public interface Moveable {
+public interface Movable {
     void move();
+    void stop();
 }
