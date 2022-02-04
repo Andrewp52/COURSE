@@ -34,12 +34,15 @@ public class StudentDAO {
     }
 
     public List<Student> getAll(){
-        CriteriaBuilder cb = this.session.getCriteriaBuilder();
-        CriteriaQuery<Student> cq = cb.createQuery(Student.class);
-        Root<Student> rootEntry = cq.from(Student.class);
-        CriteriaQuery<Student> all = cq.select(rootEntry);
-        TypedQuery<Student> allQuery = this.session.createQuery(all);
-        return allQuery.getResultList();
+//        CriteriaBuilder cb = this.session.getCriteriaBuilder();
+//        CriteriaQuery<Student> cq = cb.createQuery(Student.class);
+//        Root<Student> rootEntry = cq.from(Student.class);
+//        CriteriaQuery<Student> all = cq.select(rootEntry);
+//        TypedQuery<Student> allQuery = this.session.createQuery(all);
+//        return allQuery.getResultList();
+
+        List<Student> students = (List<Student>) session.createQuery("from students").list();
+        return students;
     }
 
     public Student getById(Long id){
