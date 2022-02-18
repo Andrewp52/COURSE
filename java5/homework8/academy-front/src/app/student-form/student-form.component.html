@@ -1,0 +1,29 @@
+
+
+    <H4>Edit student</H4>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="firstName" class="form-label col-1">First name</label>
+        <input [(ngModel)]="student.firstName" class="col-2" type="text" id="firstName" name="firstName" value=""/>
+      </div>
+      <div>
+        <label for="lastName" class="form-label col-1">Last name</label>
+        <input [(ngModel)]="student.lastName" class="col-2" type="text" id="lastName" name="lastName" value=""/>
+      </div>
+      <div>
+        <label for="login" class="form-label col-1">Login</label>
+        <input [(ngModel)]="student.login" class="col-2" type="text" id="login" name="login" value=""/>
+      </div>
+      <div>
+        <label for="password" class="form-label col-1">Password</label>
+        <input [(ngModel)]="student.password" class="col-2" type="password" id="password" name="password" value=""/>
+      </div>
+
+      <input [(ngModel)]="student.id" type="hidden" id="id" name="id" value="">
+
+      <div class="mt-1">
+        <input class="col-3" type="submit" value="Submit" />
+      </div>
+
+    </form>
+
