@@ -1,0 +1,30 @@
+version: '3'
+services:
+  academy-frontend:
+    image: frontend:latest
+    restart: always
+    ports:
+      - 80:80
+
+  academy-backend:
+    image: homework8/web:latest
+    ports:
+      - 8081
+    environment:
+      DB_HOST: "db"
+    restart: always
+    depends_on:
+      - db
+    command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/entrypoint.sh"
+
+  db:
+    image: mysql:8.0.23
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - 3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
