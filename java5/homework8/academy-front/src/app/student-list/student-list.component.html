@@ -1,0 +1,24 @@
+
+      <h4 class="mb-3">Students</h4>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">#ID</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col">Login</th>
+          <th colspan="2"><a routerLink="/student/new">Add new student</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let student of students">
+          <th scope="row">{{student.id}}</th>
+          <td>{{student.firstName}}</td>
+          <td>{{student.lastName}}</td>
+          <td>{{student.login}}</td>
+          <td><a routerLink="/student/{{student.id}}">edit</a></td>
+          <td><a routerLink="/student/" (click)="onDeleteClick(student.id)">delete</a></td>
+        </tr>
+        </tbody>
+      </table>
+
