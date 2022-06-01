@@ -9,6 +9,10 @@ public class Main {
         arr.display();
         arr.delete(3);
         arr.display();
+        arr.insert2(6, 4);
+        arr.display();
+        arr.deleteAll(4);
+        arr.display();
 
 //        long current = System.nanoTime();
 //        String s0 = "Ex";
